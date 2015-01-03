@@ -217,8 +217,8 @@ void checkFirstTime(bool eepromReset)
 
 	    ///////////////////////////////////
 
-        eepromConfig.rollAndPitchRateScaling = 100.0 / 180000.0 * PI;  // Stick to rate scaling for 100 DPS
-	    eepromConfig.yawRateScaling          = 100.0 / 180000.0 * PI;  // Stick to rate scaling for 100 DPS
+        eepromConfig.rollAndPitchRateScaling = 200.0 / 180000.0 * PI;  // Stick to rate scaling for 100 DPS
+	    eepromConfig.yawRateScaling          = 200.0 / 180000.0 * PI;  // Stick to rate scaling for 100 DPS
 
 	    eepromConfig.attitudeScaling         = 60.0  / 180000.0 * PI;  // Stick to att scaling for 60 degrees
 
@@ -228,7 +228,7 @@ void checkFirstTime(bool eepromReset)
 
         ///////////////////////////////
 
-	    eepromConfig.receiverType  = PWM;
+	    eepromConfig.receiverType  = PPM;//PWM;
 	    eepromConfig.ppmChannels   = 9;
 	    eepromConfig.slaveSpektrum = false;
 
@@ -237,7 +237,7 @@ void checkFirstTime(bool eepromReset)
 	    eepromConfig.escPwmRate   = 450;
         eepromConfig.servoPwmRate = 50;
 
-        eepromConfig.mixerConfiguration = MIXERTYPE_TRI;
+        eepromConfig.mixerConfiguration = MIXERTYPE_QUADX47;//MIXERTYPE_TRI;
         eepromConfig.yawDirection       = 1.0f;
 
         eepromConfig.triYawServoPwmRate             = 50;
@@ -295,7 +295,7 @@ void checkFirstTime(bool eepromReset)
         eepromConfig.pitchAttAltCompensationGain  =  1.0f;
         eepromConfig.pitchAttAltCompensationLimit =  0.0f * D2R;
 
-        eepromConfig.midCommand   = 3000.0f;
+        eepromConfig.midCommand   = 3043.0f;//3000.0f;
         eepromConfig.minCheck     = (float)(MINCOMMAND + 200);
         eepromConfig.maxCheck     = (float)(MAXCOMMAND - 200);
         eepromConfig.minThrottle  = (float)(MINCOMMAND + 200);
@@ -401,7 +401,7 @@ void checkFirstTime(bool eepromReset)
 
         ///////////////////////////////
 
-        eepromConfig.osdEnabled             =  true;
+        eepromConfig.osdEnabled             =  false;//true;
         eepromConfig.defaultVideoStandard   =  PAL;
         eepromConfig.metricUnits            =  true;
 
@@ -462,15 +462,15 @@ void checkFirstTime(bool eepromReset)
 		// is a nominal value and slight adjustment
 		// may be required.
 
-		eepromConfig.currentMonitoring      = false;
-		eepromConfig.currentMonitorPin      = 6;
+		eepromConfig.currentMonitoring      = true;//false;
+		eepromConfig.currentMonitorPin      = 5;//6;
 		eepromConfig.currentMonitorScale    = 27.322404f;  // For 90 amp AttoPilot Sensor
 		eepromConfig.currentMonitorBias     =  0.0f;
 
-		eepromConfig.rssiPPM                = false;
-	    eepromConfig.rssiPin		    	= 5;
-        eepromConfig.rssiMax			    = 3450;
-		eepromConfig.rssiMin		    	= 10;
+		eepromConfig.rssiPPM                = true;//false;
+	    eepromConfig.rssiPin		    	= 9;//5;
+        eepromConfig.rssiMax			    = eepromConfig.minCheck;//3450;
+		eepromConfig.rssiMin		    	= eepromConfig.maxCheck;//10;
 		eepromConfig.rssiWarning		    = 25;
 
 	    // The default voltage monitor pin and scale factor
@@ -482,11 +482,11 @@ void checkFirstTime(bool eepromReset)
 	    // factor.  These are nominal values, and slight
 	    // adjustment may be required.
 
-	    eepromConfig.voltageMonitorPin      = 7;
-	    eepromConfig.voltageMonitorScale    = 7.666667f;
+	    eepromConfig.voltageMonitorPin      = 9;//7;
+	    eepromConfig.voltageMonitorScale    = 15.696969f;//7.666667f;
 	    eepromConfig.voltageMonitorBias     = 0.0f;
 
-		eepromConfig.batteryCells           = 3;
+		eepromConfig.batteryCells           = 4;//3;
 
 		eepromConfig.batteryLow             = 3.30f;
         eepromConfig.batteryVeryLow         = 3.20f;
@@ -494,8 +494,8 @@ void checkFirstTime(bool eepromReset)
 
         ///////////////////////////////
 
-        eepromConfig.armCount               =  50;
-        eepromConfig.disarmCount            =  0;
+        eepromConfig.armCount               =  35;//50;
+        eepromConfig.disarmCount            =  5;//0;
 
         ///////////////////////////////
 

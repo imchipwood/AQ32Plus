@@ -93,6 +93,10 @@ void mixerCLI()
                     case MIXERTYPE_FREE:
                         cliPortPrint("  MIXERTYPE FREE\n");
                         break;
+
+                    case MIXERTYPE_QUADX47:
+                        cliPortPrint("MIXERTYPE QUAD X motors 4-7\n");
+                        break;
                 }
 
                 cliPortPrintF("Number of Motors:                    %1d\n",  numberMotor);

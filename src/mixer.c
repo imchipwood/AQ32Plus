@@ -39,6 +39,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 uint8_t numberMotor;
+uint8_t firstMotor;
 
 float throttleCmd = 2000.0f;
 
@@ -55,22 +56,31 @@ void initMixer(void)
     switch (eepromConfig.mixerConfiguration)
     {
         case MIXERTYPE_TRI:
+			firstMotor  = 0;
             numberMotor = 3;
             motor[7] = eepromConfig.triYawServoMid;
             break;
 
         case MIXERTYPE_QUADX:
+			firstMotor  = 0;
             numberMotor = 4;
             break;
 
         case MIXERTYPE_HEX6X:
         case MIXERTYPE_Y6:
+			firstMotor  = 0;
             numberMotor = 6;
             break;
 
         case MIXERTYPE_FREE:
+			firstMotor  = 0;
 		    numberMotor = eepromConfig.freeMixMotors;
         	break;
+
+        case MIXERTYPE_QUADX47:
+			firstMotor  = 4;
+            numberMotor = 8;
+            break;
     }
 }
 
@@ -93,7 +103,7 @@ void writeMotors(void)
 {
     uint8_t i;
 
-    for (i = 0; i < numberMotor; i++)
+	for (i = firstMotor; i < numberMotor; i++)
         pwmEscWrite(i, (uint16_t)motor[i]);
 
     if (eepromConfig.mixerConfiguration == MIXERTYPE_TRI)
@@ -109,7 +119,7 @@ void writeAllMotors(float mc)
     uint8_t i;
 
     // Sends commands to all motors
-    for (i = 0; i < numberMotor; i++)
+    for (i = firstMotor; i < numberMotor; i++)
         motor[i] = mc;
     writeMotors();
 }
@@ -201,19 +211,28 @@ void mixTable(void)
         	break;
 
         ///////////////////////////////
+
+		case MIXERTYPE_QUADX47:
+			motor[4] = PIDMIX(  1.0f, -1.0f, -1.0f, 1.0f );      // Front Left  CW
+			motor[5] = PIDMIX( -1.0f, -1.0f,  1.0f, 1.0f );      // Front Right CCW
+			motor[6] = PIDMIX( -1.0f,  1.0f, -1.0f, 1.0f );      // Rear Right  CW
+			motor[7] = PIDMIX(  1.0f,  1.0f,  1.0f, 1.0f );      // Rear Left   CCW
+			break;
+
+        ///////////////////////////////
     }
 
     ///////////////////////////////////
 
     // this is a way to still have good gyro corrections if any motor reaches its max.
 
-    maxMotor = motor[0];
+    maxMotor = motor[firstMotor];
 
-    for (i = 1; i < numberMotor; i++)
+	for (i = firstMotor; i < numberMotor; i++)
         if (motor[i] > maxMotor)
             maxMotor = motor[i];
 
-    for (i = 0; i < numberMotor; i++)
+	for (i = firstMotor; i < numberMotor; i++)
     {
         if (maxMotor > eepromConfig.maxThrottle)
             motor[i] -= maxMotor - eepromConfig.maxThrottle;

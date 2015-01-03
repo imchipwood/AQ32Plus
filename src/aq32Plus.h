@@ -208,6 +208,7 @@ enum { MIXERTYPE_TRI,
        MIXERTYPE_HEX6X,
        MIXERTYPE_Y6,
        MIXERTYPE_FREE,
+       MIXERTYPE_QUADX47,
      };
 
 ///////////////////////////////////////////////////////////////////////////////
